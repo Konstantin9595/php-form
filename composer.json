@@ -22,6 +22,7 @@
         "relay/relay": "2.0",
         "middlewares/fast-route": "^1.2",
         "middlewares/request-handler": "^1.4",
+        "faapz/pdo": "^1.12"
     },
     "require-dev": {
         "phpunit/phpunit": "^8"

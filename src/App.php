@@ -5,22 +5,25 @@ namespace App;
 
 use Psr\Http\Message\ResponseInterface;
 use FormManager\Factory as Form;
+use FaaPz\PDO\Database;
 
 class App
 {
     private $foo;
+    private $db;
 
-    public function __construct(string $foo, ResponseInterface $response)
+    public function __construct(string $foo, ResponseInterface $response, Database $database)
     {
         $this->foo = $foo;
         $this->response = $response;
-
+        $this->db = $database;
     }
 
-    public function __invoke(): ResponseInterface
+    public function __invoke()
     {
         $form = $this->renderForm();
         $response = $this->response->withHeader('Content-Type', 'text/html');
+        // $out = implode(" ", $this->getUsers());
         $response->getBody()->write("<html><head></head><body>{$form}</body></html>");
 
         return $response;
@@ -36,5 +39,14 @@ class App
         ], ['method' => 'POST', 'action' => '/register']);
 
         return $form;
+    }
+
+    public function getUsers()
+    {
+        $users = $this->db->select(["*"])->from('users');
+        $stmt = $users->execute();
+        $data = $stmt->fetch();
+        return $data;
+        //return $this->
     }
 }
