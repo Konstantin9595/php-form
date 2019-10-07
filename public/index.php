@@ -15,6 +15,7 @@ use function FastRoute\simpleDispatcher;
 use FaaPz\PDO\Database;
 use \App\User;
 use FormManager\Factory as Form;
+use Zend\Diactoros\Response\RedirectResponse;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -46,8 +47,14 @@ $routes = simpleDispatcher(function (RouteCollector $r) {
         $link = "<a href='/entry'>Оставить заявку</a>";
         echo $link;
     });
+    
     $r->get('/entry', ["App\User", "entry" ]);
     $r->post('/send-entry', ["App\User", 'sendEntry']);
+
+    $r->get('/thanks', function($request) {
+        $name = $request->getQueryParams()['name'];
+        echo "Спасибо {$name}";
+    });
 
 });
 
@@ -58,4 +65,3 @@ $requestHandler = new Relay($middlewareQueue);
 $response = $requestHandler->handle(ServerRequestFactory::fromGlobals());
 
 echo $response->getBody();
-
