@@ -16,7 +16,7 @@ class User
     private $foo;
     private $db;
 
-    public function __construct(string $foo, ResponseInterface $response, Database $database)
+    public function __construct(ResponseInterface $response, Database $database)
     {
         $this->foo = $foo;
         $this->response = $response;

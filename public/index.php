@@ -24,8 +24,7 @@ $containerBuilder = new ContainerBuilder();
 $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 $containerBuilder->addDefinitions([
-    User::class => create(User::class)->constructor(get('Foo'), get('Response'), get('Database')),
-    'Foo' => 'Konstantin',
+    User::class => create(User::class)->constructor(get('Response'), get('Database')),
     'Response' => function() {
         return new Response();
     },
@@ -47,7 +46,7 @@ $routes = simpleDispatcher(function (RouteCollector $r) {
         $link = "<a href='/entry'>Оставить заявку</a>";
         echo $link;
     });
-    
+
     $r->get('/entry', ["App\User", "entry" ]);
     $r->post('/send-entry', ["App\User", 'sendEntry']);
 
