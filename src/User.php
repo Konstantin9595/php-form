@@ -6,8 +6,9 @@ namespace App;
 use Psr\Http\Message\ResponseInterface;
 use FormManager\Factory as Form;
 use FaaPz\PDO\Database;
+use Zend\Diactoros\Response\JsonResponse;
 
-class App
+class User
 {
     private $foo;
     private $db;
@@ -34,19 +35,29 @@ class App
         $form = Form::form([
             'name' => Form::text('Имя', ['name' => 'name', 'placeholder' => 'Имя']),
             'email' => Form::email('Email', ['name' => 'email', 'type' => 'email', 'placeholder' => 'E-mail']),
-            'password' => Form::password('Password', ['name' => 'password', 'type' => 'password', 'placeholder' => 'Пароль']),
-            'submit' => Form::submit('Зарегистрироваться', ['name' => 'register', 'value' => "Зарегистрироваться"])
-        ], ['method' => 'POST', 'action' => '/register']);
+            'message' => Form::textarea('Сообщение', ['name' => 'message', 'placeholder' => 'Сообщение']),
+            'submit' => Form::submit('Отправить', ['name' => 'send', 'value' => "Отправить"])
+        ], ['method' => 'POST', 'action' => '/send-entry']);
 
         return $form;
     }
 
-    public function getUsers()
+    // public function getUsers()
+    // {
+    //     $users = $this->db->select(["*"])->from('users');
+    //     $stmt = $users->execute();
+    //     $data = $stmt->fetch();
+    //     return $data;
+    //     //return $this->
+    // }
+
+    public function entry($request)
     {
-        $users = $this->db->select(["*"])->from('users');
-        $stmt = $users->execute();
-        $data = $stmt->fetch();
-        return $data;
-        //return $this->
+        // $response = $this->response->withHeader('Content-Type', 'application/hal+json');
+        // $response->getBody()->write(json_encode(["name" => "Konstantin"]));
+
+        return $this->renderForm();
+
+
     }
 }
